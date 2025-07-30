@@ -30,7 +30,9 @@ export default function HomeScreen() {
       <ScrollView className="flex-1">
         <View className="flex-1 justify-center items-center p-4">
           <Text className="text-3xl font-bold mb-4">Welcome back!</Text>
-          <Text className="text-lg mb-8">Hello, {user.firstName || user.emailAddresses[0]?.emailAddress}</Text>
+          <Text className="text-lg mb-8">
+            Hello, {user.firstName || user.emailAddresses?.[0]?.emailAddress || 'User'}
+          </Text>
           <TouchableOpacity
             onPress={() => signOut()}
             className="bg-red-500 px-6 py-3 rounded-lg"
