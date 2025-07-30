@@ -14,7 +14,7 @@ export const DEFAULT_CONFIG: ProjectConfig = {
 	frontend: ["tanstack-router"],
 	database: "sqlite",
 	orm: "drizzle",
-	auth: true,
+	auth: "better-auth", // Default to better-auth for backward compatibility
 	addons: ["turborepo"],
 	examples: [],
 	git: true,
@@ -30,6 +30,11 @@ export const DEFAULT_CONFIG: ProjectConfig = {
 export const dependencyVersionMap = {
 	"better-auth": "^1.3.4",
 	"@better-auth/expo": "^1.3.4",
+
+	"@clerk/nextjs": "^6.14.5",
+	"@clerk/clerk-react": "^5.20.0",
+	"@clerk/clerk-js": "^5.37.0",
+	"@clerk/expo": "^2.9.12",
 
 	"drizzle-orm": "^0.44.2",
 	"drizzle-kit": "^0.31.2",
