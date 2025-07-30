@@ -13,9 +13,13 @@ export async function getAuth() {
 // This file provides utilities for validating Clerk tokens if needed
 import { createClerkClient } from '@clerk/backend'
 
-const clerkClient = createClerkClient({
-  secretKey: process.env.CLERK_SECRET_KEY,
-})
++if (!process.env.CLERK_SECRET_KEY) {
++  throw new Error('CLERK_SECRET_KEY environment variable is required for Clerk authentication')
++}
++
+ const clerkClient = createClerkClient({
+   secretKey: process.env.CLERK_SECRET_KEY,
+ })
 
 export { clerkClient }
 
