@@ -10,9 +10,13 @@
 		<div style="display: contents">%sveltekit.body%</div>
 		<script>
 			// Initialize Clerk
-			import('./lib/clerk-client.js').then(({ clerk }) => {
-				clerk.load()
-			})
+			import('./lib/clerk-client.js')
+				.then(({ clerk }) => {
+					return clerk.load()
+				})
+				.catch((error) => {
+					console.error('Failed to initialize Clerk:', error)
+				})
 		</script>
 	</body>
 </html>
