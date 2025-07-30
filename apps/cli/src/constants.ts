@@ -31,10 +31,10 @@ export const dependencyVersionMap = {
 	"better-auth": "^1.3.4",
 	"@better-auth/expo": "^1.3.4",
 
-	"@clerk/nextjs": "^6.14.5",
-	"@clerk/clerk-react": "^5.20.0",
-	"@clerk/clerk-js": "^5.37.0",
-	"@clerk/expo": "^2.9.12",
+	"@clerk/nextjs": "^6.28.0",
+	"@clerk/clerk-react": "^5.38.0",
+	"@clerk/clerk-js": "^5.78.0",
+	"@clerk/clerk-expo": "^2.9.13",
 
 	"drizzle-orm": "^0.44.2",
 	"drizzle-kit": "^0.31.2",
