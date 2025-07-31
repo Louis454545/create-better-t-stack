@@ -867,10 +867,10 @@ export async function handleExtras(projectDir: string, context: ProjectConfig) {
 	}
 
 	if (context.packageManager === "bun") {
-		const bunfigSrc = path.join(extrasDir, "bunfig.toml");
+		const bunfigSrc = path.join(extrasDir, "bunfig.toml.hbs");
 		const bunfigDest = path.join(projectDir, "bunfig.toml");
 		if (await fs.pathExists(bunfigSrc)) {
-			await fs.copy(bunfigSrc, bunfigDest);
+			await processTemplate(bunfigSrc, bunfigDest, context);
 		}
 	}
 

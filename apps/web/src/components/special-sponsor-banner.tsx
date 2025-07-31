@@ -1,14 +1,15 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import {
+	filterCurrentSponsors,
+	filterSpecialSponsors,
+	sortSpecialSponsors,
+} from "@/lib/sponsor-utils";
 import type { Sponsor } from "@/lib/types";
 
-const isSpecialSponsor = (sponsor: Sponsor) => {
-	return sponsor.monthlyDollars >= 100;
-};
-
 export function SpecialSponsorBanner() {
-	const [specialSponsor, setSpecialSponsor] = useState<Sponsor | null>(null);
+	const [specialSponsors, setSpecialSponsors] = useState<Sponsor[]>([]);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
@@ -19,13 +20,11 @@ export function SpecialSponsorBanner() {
 			})
 			.then((data) => {
 				const sponsorsData = Array.isArray(data) ? data : [];
-				const specialSponsor = sponsorsData.find(
-					(sponsor) => sponsor.monthlyDollars > 0 && isSpecialSponsor(sponsor),
+				const currentSponsors = filterCurrentSponsors(sponsorsData);
+				const specials = sortSpecialSponsors(
+					filterSpecialSponsors(currentSponsors),
 				);
-
-				if (specialSponsor) {
-					setSpecialSponsor(specialSponsor);
-				}
+				setSpecialSponsors(specials);
 				setLoading(false);
 			})
 			.catch(() => {
@@ -46,29 +45,30 @@ export function SpecialSponsorBanner() {
 		);
 	}
 
-	if (!specialSponsor) {
+	if (!specialSponsors.length) {
 		return null;
 	}
 
 	return (
 		<div className="">
-			<div className="flex items-center gap-3">
-				<Image
-					src={
-						specialSponsor.sponsor.customLogoUrl ||
-						specialSponsor.sponsor.avatarUrl
-					}
-					alt={specialSponsor.sponsor.name || specialSponsor.sponsor.login}
-					width={30}
-					height={30}
-					className="rounded border border-border"
-					unoptimized
-				/>
-				<div className="min-w-0 flex-1">
-					<h4 className="truncate font-medium text-sm">
-						{specialSponsor.sponsor.name || specialSponsor.sponsor.login}
-					</h4>
-				</div>
+			<div className="flex flex-col gap-2">
+				{specialSponsors.map((sponsor) => (
+					<div key={sponsor.sponsor.login} className="flex items-center gap-3">
+						<Image
+							src={sponsor.sponsor.customLogoUrl || sponsor.sponsor.avatarUrl}
+							alt={sponsor.sponsor.name || sponsor.sponsor.login}
+							width={30}
+							height={30}
+							className="rounded border border-border"
+							unoptimized
+						/>
+						<div className="min-w-0 flex-1">
+							<h4 className="truncate font-medium text-sm">
+								{sponsor.sponsor.name || sponsor.sponsor.login}
+							</h4>
+						</div>
+					</div>
+				))}
 			</div>
 		</div>
 	);
