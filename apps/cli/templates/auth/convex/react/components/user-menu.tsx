@@ -21,9 +21,12 @@ export function UserMenu() {
       <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
         className="flex items-center space-x-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+        aria-haspopup="true"
+        aria-expanded={isMenuOpen}
       >
         <div className="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white font-semibold">
-          {user.name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
+          {(user.name && user.name.length > 0) ? user.name.charAt(0).toUpperCase() :
+           (user.email && user.email.length > 0) ? user.email.charAt(0).toUpperCase() : '?'}
         </div>
         <span>{user.name || user.email}</span>
       </button>

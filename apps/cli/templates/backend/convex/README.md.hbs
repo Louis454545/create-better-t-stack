@@ -33,6 +33,14 @@ NEXT_PUBLIC_CONVEX_URL=https://your-deployment-url.convex.cloud
 CONVEX_AUTH_PRIVATE_KEY=your-auth-private-key
 {{/if}}
 ```
+
+{{#if auth}}
+To generate your `CONVEX_AUTH_PRIVATE_KEY`, run:
+```bash
+npx convex auth
+```
+This will generate a private key for your authentication setup.
+{{/if}}
 {{else}}
 Create a `.env` file in your web app directory:
 
@@ -42,6 +50,14 @@ VITE_CONVEX_URL=https://your-deployment-url.convex.cloud
 CONVEX_AUTH_PRIVATE_KEY=your-auth-private-key
 {{/if}}
 ```
+
+{{#if auth}}
+To generate your `CONVEX_AUTH_PRIVATE_KEY`, run:
+```bash
+npx convex auth
+```
+This will generate a private key for your authentication setup.
+{{/if}}
 {{/if}}
 
 ### 4. Initialize Convex

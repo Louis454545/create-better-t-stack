@@ -28,6 +28,12 @@ export async function requireOwnership(
   resourceUserId: string | undefined
 ) {
   const currentUserId = await requireAuth(ctx);
+
+  // Handle case where resourceUserId is undefined
+  if (resourceUserId === undefined) {
+    throw new Error("Resource has no owner - access denied");
+  }
+
   if (resourceUserId !== currentUserId) {
     throw new Error("Access denied: You don't own this resource");
   }

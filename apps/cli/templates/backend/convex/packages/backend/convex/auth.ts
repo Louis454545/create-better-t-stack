@@ -6,9 +6,17 @@ export const { auth, signIn, signOut, store } = convexAuth({
   providers: [
     Password({
       profile(params) {
+        // Validate and ensure params have required fields
+        if (!params.email || typeof params.email !== 'string') {
+          throw new Error("Email is required and must be a string");
+        }
+        if (!params.name || typeof params.name !== 'string') {
+          throw new Error("Name is required and must be a string");
+        }
+
         return {
-          email: params.email as string,
-          name: params.name as string,
+          email: params.email,
+          name: params.name,
         };
       },
     }),

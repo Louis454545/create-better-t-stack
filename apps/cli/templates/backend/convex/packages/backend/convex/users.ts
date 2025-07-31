@@ -49,6 +49,21 @@ export const updateProfile = mutation({
   handler: async (ctx, args) => {
     const userId = await requireAuth(ctx);
 
+    // Validate input fields
+    if (args.name !== undefined) {
+      if (args.name.length > 100) {
+        throw new Error("Name cannot exceed 100 characters");
+      }
+    }
+
+    if (args.image !== undefined) {
+      try {
+        new URL(args.image);
+      } catch {
+        throw new Error("Image must be a valid URL");
+      }
+    }
+
     const updates: { name?: string; image?: string } = {};
     if (args.name !== undefined) updates.name = args.name;
     if (args.image !== undefined) updates.image = args.image;
@@ -82,9 +97,9 @@ export const getUserById = internalQuery({
 });
 
 /**
- * List all users (admin function - requires authentication)
+ * List public user profiles (returns limited public information)
  */
-export const listUsers = query({
+export const listPublicUsers = query({
   args: {
     limit: v.optional(v.number()),
   },
@@ -93,8 +108,6 @@ export const listUsers = query({
       _id: v.id("users"),
       _creationTime: v.number(),
       name: v.optional(v.string()),
-      email: v.string(),
-      emailVerified: v.optional(v.number()),
       image: v.optional(v.string()),
     })
   ),
@@ -102,6 +115,14 @@ export const listUsers = query({
     await requireAuth(ctx);
 
     const limit = args.limit ?? 50;
-    return await ctx.db.query("users").take(limit);
+    const users = await ctx.db.query("users").take(limit);
+
+    // Return only public information (exclude email and emailVerified)
+    return users.map(user => ({
+      _id: user._id,
+      _creationTime: user._creationTime,
+      name: user.name,
+      image: user.image,
+    }));
   },
 });

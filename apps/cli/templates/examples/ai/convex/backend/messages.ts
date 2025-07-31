@@ -1,4 +1,4 @@
-import { query, mutation, internalAction } from "./_generated/server";
+import { query, mutation, internalAction, internalQuery, internalMutation } from "./_generated/server";
 import { v } from "convex/values";
 {{#if auth}}
 import { requireAuth, getCurrentUserId } from "./lib/auth";
@@ -120,7 +120,7 @@ export const generateAIResponse = internalAction({
 /**
  * Get conversation context (internal query)
  */
-export const getConversationContext = query({
+export const getConversationContext = internalQuery({
   args: {
     conversationId: v.string(),
     {{#if auth}}
@@ -151,7 +151,7 @@ export const getConversationContext = query({
 /**
  * Insert AI message (internal mutation)
  */
-export const insertAIMessage = mutation({
+export const insertAIMessage = internalMutation({
   args: {
     content: v.string(),
     conversationId: v.string(),

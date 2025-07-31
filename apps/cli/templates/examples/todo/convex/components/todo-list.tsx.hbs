@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from "convex/react";
 import { api } from "{{#if (eq backend "convex")}}@{{projectName}}/backend{{else}}../convex/_generated/api{{/if}}";
+import { Id } from "{{#if (eq backend "convex")}}@{{projectName}}/backend{{else}}../convex/_generated/dataModel{{/if}}";
 import { useState } from "react";
 {{#if auth}}
 import { useAuth } from "../hooks/use-auth";
@@ -35,17 +36,22 @@ export function TodoList() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (newTodo.trim()) {
-      await createTodo({ text: newTodo.trim() });
-      setNewTodo("");
+      try {
+        await createTodo({ text: newTodo.trim() });
+        setNewTodo("");
+      } catch (error) {
+        console.error("Failed to create todo:", error);
+        // You could also show a toast notification or set an error state here
+      }
     }
   };
 
   const handleToggle = async (id: string, completed: boolean) => {
-    await toggleTodo({ id: id as any, completed: !completed });
+    await toggleTodo({ id: id as Id<"todos">, completed: !completed });
   };
 
   const handleDelete = async (id: string) => {
-    await deleteTodo({ id: id as any });
+    await deleteTodo({ id: id as Id<"todos"> });
   };
 
   return (
