@@ -435,6 +435,13 @@ export const TECH_OPTIONS: Record<
 			color: "from-amber-500 to-amber-700",
 			default: true,
 		},
+		{
+			id: "yarn",
+			name: "yarn",
+			description: "Fast, reliable, and secure",
+			icon: `${ICON_BASE_URL}/yarn.svg`,
+			color: "from-blue-500 to-blue-700",
+		},
 	],
 	addons: [
 		{

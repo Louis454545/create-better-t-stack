@@ -85,6 +85,10 @@ export const packageManagerConfig = {
 		label: "bun",
 		color: "hsl(var(--chart-3))",
 	},
+	yarn: {
+		label: "yarn",
+		color: "hsl(var(--chart-4))",
+	},
 } satisfies ChartConfig;
 
 export const backendConfig = {

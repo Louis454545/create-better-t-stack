@@ -12,12 +12,13 @@ import PackageIcon from "./icons";
 
 export default function CommandSection() {
 	const [copiedCommand, setCopiedCommand] = useState<string | null>(null);
-	const [selectedPM, setSelectedPM] = useState<"npm" | "pnpm" | "bun">("bun");
+	const [selectedPM, setSelectedPM] = useState<"npm" | "pnpm" | "bun" | "yarn">("bun");
 
 	const commands = {
 		npm: "npx create-better-t-stack@latest",
 		pnpm: "pnpm create better-t-stack@latest",
 		bun: "bun create better-t-stack@latest",
+		yarn: "yarn create better-t-stack@latest",
 	};
 
 	const copyCommand = (command: string, packageManager: string) => {
@@ -46,7 +47,7 @@ export default function CommandSection() {
 							</button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
-							{(["bun", "pnpm", "npm"] as const).map((pm) => (
+							{(["bun", "pnpm", "npm", "yarn"] as const).map((pm) => (
 								<DropdownMenuItem
 									key={pm}
 									onClick={() => setSelectedPM(pm)}

@@ -59,7 +59,7 @@ export const ExamplesSchema = z
 export type Examples = z.infer<typeof ExamplesSchema>;
 
 export const PackageManagerSchema = z
-	.enum(["npm", "pnpm", "bun"])
+	.enum(["npm", "pnpm", "bun", "yarn"])
 	.describe("Package manager");
 export type PackageManager = z.infer<typeof PackageManagerSchema>;
 
