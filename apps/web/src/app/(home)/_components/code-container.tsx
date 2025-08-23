@@ -6,7 +6,9 @@ import { cn } from "@/lib/utils";
 import PackageIcon from "./icons";
 
 const CodeContainer = () => {
-	const [selectedPM, setSelectedPM] = useState<"npm" | "pnpm" | "bun" | "yarn">("bun");
+	const [selectedPM, setSelectedPM] = useState<"npm" | "pnpm" | "bun" | "yarn">(
+		"bun",
+	);
 	const [copied, setCopied] = useState(false);
 
 	const commands = {
@@ -23,7 +25,12 @@ const CodeContainer = () => {
 		setTimeout(() => setCopied(false), 2000);
 	};
 
-	const packageManagers: Array<"npm" | "pnpm" | "bun" | "yarn"> = ["bun", "pnpm", "npm", "yarn"];
+	const packageManagers: Array<"npm" | "pnpm" | "bun" | "yarn"> = [
+		"bun",
+		"pnpm",
+		"npm",
+		"yarn",
+	];
 
 	return (
 		<div className="mx-auto mt-6 w-full max-w-3xl px-2 md:px-0">

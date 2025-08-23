@@ -12,7 +12,9 @@ import PackageIcon from "./icons";
 
 export default function CommandSection() {
 	const [copiedCommand, setCopiedCommand] = useState<string | null>(null);
-	const [selectedPM, setSelectedPM] = useState<"npm" | "pnpm" | "bun" | "yarn">("bun");
+	const [selectedPM, setSelectedPM] = useState<"npm" | "pnpm" | "bun" | "yarn">(
+		"bun",
+	);
 
 	const commands = {
 		npm: "npx create-better-t-stack@latest",
