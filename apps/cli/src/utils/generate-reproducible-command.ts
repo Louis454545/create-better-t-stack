@@ -42,6 +42,8 @@ export function generateReproducibleCommand(config: ProjectConfig): string {
 		baseCommand = "bun create better-t-stack@latest";
 	} else if (pkgManager === "pnpm") {
 		baseCommand = "pnpm create better-t-stack@latest";
+	} else if (pkgManager === "yarn") {
+		baseCommand = "yarn create better-t-stack@latest";
 	} else if (pkgManager === "npm") {
 		baseCommand = "npx create-better-t-stack@latest";
 	}
