@@ -126,6 +126,12 @@ export async function displayPostInstallInstructions(
 		output += `${pc.cyan(`${stepCounter++}.`)} ${packageManager} install\n`;
 	}
 
+	if (database === "sqlite" && dbSetup === "none" && (serverDeploy === "wrangler" || serverDeploy === "alchemy" || webDeploy === "wrangler" || webDeploy === "alchemy")) {
+		output += `${pc.cyan(`${stepCounter++}.`)} ${runCmd} db:local\n${pc.dim(
+			"   (starts local SQLite server for Workers compatibility)",
+		)}\n`;
+	}
+
 	if (isConvex) {
 		output += `${pc.cyan(`${stepCounter++}.`)} ${runCmd} dev:setup\n${pc.dim(
 			"   (this will guide you through Convex project setup)",
@@ -379,14 +385,6 @@ async function getDatabaseInstructions(
 		if (!(dbSetup === "d1" && serverDeploy === "alchemy")) {
 			instructions.push(
 				`${pc.cyan("•")} Database UI: ${`${runCmd} db:studio`}`,
-			);
-		}
-		if (database === "sqlite" && dbSetup !== "d1") {
-			const dbLocalPath = backend === "self" ? "apps/web" : "apps/server";
-			instructions.push(
-				`${pc.cyan(
-					"•",
-				)} Start local DB (if needed): ${`cd ${dbLocalPath} && ${runCmd} db:local`}`,
 			);
 		}
 	} else if (orm === "mongoose") {
