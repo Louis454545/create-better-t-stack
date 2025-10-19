@@ -126,7 +126,14 @@ export async function displayPostInstallInstructions(
 		output += `${pc.cyan(`${stepCounter++}.`)} ${packageManager} install\n`;
 	}
 
-	if (database === "sqlite" && dbSetup === "none" && (serverDeploy === "wrangler" || serverDeploy === "alchemy" || webDeploy === "wrangler" || webDeploy === "alchemy")) {
+	if (
+		database === "sqlite" &&
+		dbSetup === "none" &&
+		(serverDeploy === "wrangler" ||
+			serverDeploy === "alchemy" ||
+			webDeploy === "wrangler" ||
+			webDeploy === "alchemy")
+	) {
 		output += `${pc.cyan(`${stepCounter++}.`)} ${runCmd} db:local\n${pc.dim(
 			"   (starts local SQLite server for Workers compatibility)",
 		)}\n`;

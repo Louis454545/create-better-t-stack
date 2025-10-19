@@ -40,7 +40,7 @@ export default function ShowcaseItem({
 				</div>
 			</div>
 
-			<div className="relative aspect-[4/3] w-full overflow-hidden bg-muted/10">
+			<div className="relative aspect-video w-full overflow-hidden bg-muted/10">
 				<Image
 					src={imageUrl}
 					alt={title}

@@ -352,8 +352,13 @@ ${hasWeb ? "# npx convex env set SITE_URL http://localhost:3001\n" : ""}
 				databaseUrl = "mongodb://localhost:27017/mydatabase";
 				break;
 			case "sqlite":
-				if (config.runtime === "workers" || 
-					(webDeploy === "wrangler" || serverDeploy === "wrangler" || webDeploy === "alchemy" || serverDeploy === "alchemy")) {
+				if (
+					config.runtime === "workers" ||
+					webDeploy === "wrangler" ||
+						serverDeploy === "wrangler" ||
+						webDeploy === "alchemy" ||
+					serverDeploy === "alchemy"
+				) {
 					databaseUrl = "http://127.0.0.1:8080";
 				} else {
 					const dbAppDir = backend === "self" ? "apps/web" : "apps/server";
