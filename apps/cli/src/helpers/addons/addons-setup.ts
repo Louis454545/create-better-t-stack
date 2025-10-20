@@ -1,5 +1,5 @@
 import path from "node:path";
-import { log } from "@clack/prompts";
+import { log, spinner } from "@clack/prompts";
 import { execa } from "execa";
 import fs from "fs-extra";
 import pc from "picocolors";
@@ -225,9 +225,14 @@ async function setupOxlint(projectDir: string, packageManager: PackageManager) {
 		"oxlint@latest --init",
 	);
 
+	const s = spinner();
+	s.start("Initializing oxlint...");
+
 	await execa(oxlintInitCommand, {
 		cwd: projectDir,
 		env: { CI: "true" },
 		shell: true,
 	});
+
+	s.stop("oxlint initialized successfully!");
 }
