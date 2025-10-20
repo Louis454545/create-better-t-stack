@@ -260,6 +260,16 @@ export async function setupApi(config: ProjectConfig) {
 			}
 		}
 
+		if (
+			config.auth === "better-auth" &&
+			(backend === "express" || backend === "fastify")
+		) {
+			await addPackageDependency({
+				dependencies: ["better-auth"],
+				projectDir: apiPackageDir,
+			});
+		}
+
 		if (webDirExists && apiDeps.web) {
 			await addPackageDependency({
 				dependencies: apiDeps.web.dependencies as AvailableDependencies[],
