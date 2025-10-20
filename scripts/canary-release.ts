@@ -4,6 +4,10 @@ import { confirm, isCancel, multiselect, spinner } from "@clack/prompts";
 import { $ } from "bun";
 
 const CLI_PACKAGE_JSON_PATH = join(process.cwd(), "apps/cli/package.json");
+const ALIAS_PACKAGE_JSON_PATH = join(
+	process.cwd(),
+	"packages/create-bts/package.json",
+);
 
 async function main(): Promise<void> {
 	const args = process.argv.slice(2);
@@ -174,6 +178,13 @@ async function main(): Promise<void> {
 		CLI_PACKAGE_JSON_PATH,
 		"utf-8",
 	);
+	const aliasPackageJson = JSON.parse(
+		await readFile(ALIAS_PACKAGE_JSON_PATH, "utf-8"),
+	);
+	const originalAliasPackageJsonString = await readFile(
+		ALIAS_PACKAGE_JSON_PATH,
+		"utf-8",
+	);
 	let restored = false;
 
 	try {
@@ -181,6 +192,14 @@ async function main(): Promise<void> {
 		await writeFile(
 			CLI_PACKAGE_JSON_PATH,
 			`${JSON.stringify(packageJson, null, 2)}\n`,
+		);
+
+		// Update alias package version
+		aliasPackageJson.version = canaryVersion;
+		aliasPackageJson.dependencies["create-better-t-stack"] = canaryVersion;
+		await writeFile(
+			ALIAS_PACKAGE_JSON_PATH,
+			`${JSON.stringify(aliasPackageJson, null, 2)}\n`,
 		);
 
 		const buildSpin = spinner();
@@ -194,10 +213,13 @@ async function main(): Promise<void> {
 		}
 
 		const pubSpin = spinner();
-		pubSpin.start(`Publishing ${packageName}@${canaryVersion} (canary)...`);
+		pubSpin.start(
+			`Publishing ${packageName}@${canaryVersion} and create-bts@${canaryVersion} (canary)...`,
+		);
 		try {
 			await $`cd apps/cli && bun publish --access public --tag canary`;
-			pubSpin.stop("Publish complete");
+			await $`cd packages/create-bts && bun publish --access public --tag canary`;
+			pubSpin.stop("Publish complete for both packages");
 		} catch (err) {
 			pubSpin.stop("Publish failed");
 			throw err;
@@ -223,15 +245,20 @@ async function main(): Promise<void> {
 		}
 
 		await writeFile(CLI_PACKAGE_JSON_PATH, originalPackageJsonString);
+		await writeFile(ALIAS_PACKAGE_JSON_PATH, originalAliasPackageJsonString);
 		restored = true;
 
-		console.log(`✅ Published canary v${canaryVersion}`);
+		console.log(`✅ Published canary v${canaryVersion} for both packages`);
 		console.log(
 			`📦 NPM: https://www.npmjs.com/package/${packageName}/v/${canaryVersion}`,
+		);
+		console.log(
+			`📦 NPM: https://www.npmjs.com/package/create-bts/v/${canaryVersion}`,
 		);
 	} finally {
 		if (!restored) {
 			await writeFile(CLI_PACKAGE_JSON_PATH, originalPackageJsonString);
+			await writeFile(ALIAS_PACKAGE_JSON_PATH, originalAliasPackageJsonString);
 		}
 	}
 }

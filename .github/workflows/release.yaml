@@ -73,9 +73,25 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Update create-bts alias package version
+        if: steps.version.outputs.version != ''
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          cd packages/create-bts
+          bun run node -e "const pkg=require('./package.json');pkg.version='$VERSION';pkg.dependencies['create-better-t-stack']='^$VERSION';require('fs').writeFileSync('package.json',JSON.stringify(pkg,null,2)+'\n')"
+
       - name: Publish CLI to NPM
         if: steps.version.outputs.version != ''
         run: cd apps/cli && bun publish --access public
+        env:
+          NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
+          BTS_TELEMETRY: 1
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          POSTHOG_HOST: ${{ secrets.POSTHOG_HOST }}
+
+      - name: Publish create-bts alias to NPM
+        if: steps.version.outputs.version != ''
+        run: cd packages/create-bts && bun publish --access public
         env:
           NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
           BTS_TELEMETRY: 1

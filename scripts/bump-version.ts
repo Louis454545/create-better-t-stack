@@ -4,6 +4,10 @@ import { select, text } from "@clack/prompts";
 import { $ } from "bun";
 
 const CLI_PACKAGE_JSON_PATH = join(process.cwd(), "apps/cli/package.json");
+const ALIAS_PACKAGE_JSON_PATH = join(
+	process.cwd(),
+	"packages/create-bts/package.json",
+);
 
 async function main(): Promise<void> {
 	const args = process.argv.slice(2);
@@ -81,12 +85,23 @@ async function main(): Promise<void> {
 		`${JSON.stringify(packageJson, null, 2)}\n`,
 	);
 
+	// Update alias package version
+	const aliasPackageJson = JSON.parse(
+		await readFile(ALIAS_PACKAGE_JSON_PATH, "utf-8"),
+	);
+	aliasPackageJson.version = newVersion;
+	aliasPackageJson.dependencies["create-better-t-stack"] = `^${newVersion}`;
+	await writeFile(
+		ALIAS_PACKAGE_JSON_PATH,
+		`${JSON.stringify(aliasPackageJson, null, 2)}\n`,
+	);
+
 	await $`bun install`;
 	await $`bun run build:cli`;
-	await $`git add apps/cli/package.json bun.lock`;
+	await $`git add apps/cli/package.json packages/create-bts/package.json bun.lock`;
 	await $`git commit -m "chore(release): ${newVersion}"`;
 
-	console.log(`✅ Released v${newVersion}`);
+	console.log(`✅ Released v${newVersion} for both packages`);
 }
 
 main().catch(console.error);

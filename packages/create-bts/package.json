@@ -1,0 +1,54 @@
+{
+  "name": "create-bts",
+  "version": "3.2.3",
+  "description": "A modern CLI tool for scaffolding end-to-end type-safe TypeScript projects with best practices and customizable configurations (alias for create-better-t-stack)",
+  "type": "module",
+  "license": "MIT",
+  "author": "Aman Varshney",
+  "bin": {
+    "create-bts": "cli.js"
+  },
+  "files": [
+    "cli.js",
+    "index.js"
+  ],
+  "keywords": [
+    "bts",
+    "better-t-stack",
+    "typescript",
+    "boilerplate",
+    "starter",
+    "cli",
+    "turborepo",
+    "trpc",
+    "better-auth",
+    "monorepo",
+    "fullstack",
+    "type-safety",
+    "react",
+    "react-native",
+    "expo",
+    "hono",
+    "elysia",
+    "drizzle",
+    "prisma",
+    "tanstack",
+    "tailwind",
+    "shadcn",
+    "pwa",
+    "tauri",
+    "biome"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmanVarshney01/create-better-t-stack.git",
+    "directory": "packages/create-bts"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://better-t-stack.dev/",
+  "dependencies": {
+    "create-better-t-stack": "^3.2.3"
+  }
+}
