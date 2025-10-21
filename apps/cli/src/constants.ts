@@ -45,7 +45,7 @@ export const dependencyVersionMap = {
 
 	"@clerk/nextjs": "^6.31.5",
 	"@clerk/clerk-react": "^5.45.0",
-	"@clerk/tanstack-react-start": "^0.25.1",
+	"@clerk/tanstack-react-start": "^0.26.3",
 	"@clerk/clerk-expo": "^2.14.25",
 
 	"drizzle-orm": "^0.44.2",

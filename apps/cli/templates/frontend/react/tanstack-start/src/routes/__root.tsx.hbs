@@ -28,15 +28,14 @@ import Loader from "@/components/loader";
 
 {{#if (and (eq backend "convex") (eq auth "clerk"))}}
 import { ClerkProvider, useAuth } from "@clerk/tanstack-react-start";
-import { getAuth } from "@clerk/tanstack-react-start/server";
+import { auth } from "@clerk/tanstack-react-start/server";
 import { createServerFn } from "@tanstack/react-start";
-import { getRequest } from "@tanstack/react-start/server";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 
 const fetchClerkAuth = createServerFn({ method: "GET" }).handler(async () => {
-  const auth = await getAuth(getRequest());
-  const token = await auth.getToken({ template: "convex" });
-  return { userId: auth.userId, token };
+  const clerkAuth = await auth();
+  const token = await clerkAuth.getToken({ template: "convex" });
+  return { userId: clerkAuth.userId, token };
 });
 {{else if (and (eq backend "convex") (eq auth "better-auth"))}}
 import { createServerFn } from "@tanstack/react-start";
