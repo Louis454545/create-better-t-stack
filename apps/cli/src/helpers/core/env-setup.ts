@@ -355,8 +355,8 @@ ${hasWeb ? "# npx convex env set SITE_URL http://localhost:3001\n" : ""}
 				if (
 					config.runtime === "workers" ||
 					webDeploy === "wrangler" ||
-						serverDeploy === "wrangler" ||
-						webDeploy === "alchemy" ||
+					serverDeploy === "wrangler" ||
+					webDeploy === "alchemy" ||
 					serverDeploy === "alchemy"
 				) {
 					databaseUrl = "http://127.0.0.1:8080";
