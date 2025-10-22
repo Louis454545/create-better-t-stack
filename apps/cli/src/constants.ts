@@ -40,8 +40,8 @@ export function getDefaultConfig() {
 export const DEFAULT_CONFIG = getDefaultConfig();
 
 export const dependencyVersionMap = {
-	"better-auth": "^1.3.13",
-	"@better-auth/expo": "^1.3.13",
+	"better-auth": "^1.3.28",
+	"@better-auth/expo": "^1.3.28",
 
 	"@clerk/nextjs": "^6.31.5",
 	"@clerk/clerk-react": "^5.45.0",
@@ -116,11 +116,11 @@ export const dependencyVersionMap = {
 	streamdown: "^1.3.0",
 	shiki: "^3.12.2",
 
-	"@orpc/server": "^1.9.0",
-	"@orpc/client": "^1.9.0",
-	"@orpc/openapi": "^1.9.0",
-	"@orpc/zod": "^1.9.0",
-	"@orpc/tanstack-query": "^1.9.0",
+	"@orpc/server": "^1.10.0",
+	"@orpc/client": "^1.10.0",
+	"@orpc/openapi": "^1.10.0",
+	"@orpc/zod": "^1.10.0",
+	"@orpc/tanstack-query": "^1.10.0",
 
 	"@trpc/tanstack-react-query": "^11.5.0",
 	"@trpc/server": "^11.5.0",

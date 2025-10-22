@@ -1,7 +1,6 @@
+import type { auth } from "@{{projectName}}/auth";
 import { createAuthClient } from "better-auth/react";
-{{#if (eq payments "polar")}}
-import { polarClient } from "@polar-sh/better-auth";
-{{/if}}
+import { inferAdditionalFields } from "better-auth/client/plugins";
 
 export const authClient = createAuthClient({
   {{#unless (eq backend "self")}}
@@ -12,7 +11,5 @@ export const authClient = createAuthClient({
       import.meta.env.VITE_SERVER_URL,
     {{/if}}
   {{/unless}}
-{{#if (eq payments "polar")}}
-  plugins: [polarClient()]
-{{/if}}
+  plugins: [inferAdditionalFields<typeof auth>()],
 });

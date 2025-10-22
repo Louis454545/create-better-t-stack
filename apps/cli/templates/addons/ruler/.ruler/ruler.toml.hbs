@@ -68,6 +68,12 @@ url = "https://mcp.chonkie.ai/better-auth/better-auth-builder/mcp"
 url = "https://ui.nuxt.com/mcp"
 {{/if}}
 
+{{#if (includes frontend "next")}}
+[mcp_servers.next-devtools]
+command = "npx"
+args = ["-y", "next-devtools-mcp@latest"]
+{{/if}}
+
 # --- Global .gitignore Configuration ---
 [gitignore]
 # Enable/disable automatic .gitignore updates (default: true)
