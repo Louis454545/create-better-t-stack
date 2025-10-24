@@ -33,7 +33,19 @@ const getORPCClient = createIsomorphicFn()
   .server(() =>
     createRouterClient(appRouter, {
       context: async ({ req }) => {
+        {{#if (eq backend "self")}}
         return createContext({ req });
+        {{else if (eq backend "hono")}}
+        return createContext({ context: req });
+        {{else if (eq backend "elysia")}}
+        return createContext({ context: req });
+        {{else if (eq backend "express")}}
+        return createContext({ req });
+        {{else if (eq backend "fastify")}}
+        return createContext(req.headers);
+        {{else}}
+        return createContext();
+        {{/if}}
       },
     }),
   )

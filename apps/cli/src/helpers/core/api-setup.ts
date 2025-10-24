@@ -1,7 +1,7 @@
 import path from "node:path";
 import fs from "fs-extra";
 import type { AvailableDependencies } from "../../constants";
-import type { Frontend, ProjectConfig } from "../../types";
+import type { API, Backend, Frontend, ProjectConfig } from "../../types";
 import { addPackageDependency } from "../../utils/add-package-deps";
 
 async function addBackendWorkspaceDependency(
@@ -45,9 +45,9 @@ function getFrontendType(frontend: Frontend[]): {
 }
 
 function getApiDependencies(
-	api: string,
+	api: API,
 	frontendType: ReturnType<typeof getFrontendType>,
-	backend: string,
+	backend: Backend,
 ) {
 	const deps: Record<
 		string,
@@ -266,6 +266,13 @@ export async function setupApi(config: ProjectConfig) {
 		) {
 			await addPackageDependency({
 				dependencies: ["better-auth"],
+				projectDir: apiPackageDir,
+			});
+		}
+
+		if (backend === "express") {
+			await addPackageDependency({
+				devDependencies: ["@types/express"],
 				projectDir: apiPackageDir,
 			});
 		}
