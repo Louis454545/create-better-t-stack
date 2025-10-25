@@ -31,7 +31,8 @@ type UltraciteAgent =
 	| "junie"
 	| "augmentcode"
 	| "kilo-code"
-	| "goose";
+	| "goose"
+	| "roo-code";
 
 const EDITORS = {
 	vscode: {
@@ -94,10 +95,37 @@ const AGENTS = {
 	goose: {
 		label: "Goose",
 	},
+	"roo-code": {
+		label: "Roo Code",
+	},
 } as const;
 
+function getFrameworksFromFrontend(frontend: string[]): string[] {
+	const frameworkMap: Record<string, string> = {
+		"tanstack-router": "react",
+		"react-router": "react",
+		"tanstack-start": "react",
+		next: "next",
+		nuxt: "vue",
+		"native-nativewind": "react",
+		"native-unistyles": "react",
+		svelte: "svelte",
+		solid: "solid",
+	};
+
+	const frameworks = new Set<string>();
+
+	for (const f of frontend) {
+		if (f !== "none" && frameworkMap[f]) {
+			frameworks.add(frameworkMap[f]);
+		}
+	}
+
+	return Array.from(frameworks);
+}
+
 export async function setupUltracite(config: ProjectConfig, hasHusky: boolean) {
-	const { packageManager, projectDir } = config;
+	const { packageManager, projectDir, frontend } = config;
 
 	try {
 		log.info("Setting up Ultracite...");
@@ -135,7 +163,13 @@ export async function setupUltracite(config: ProjectConfig, hasHusky: boolean) {
 		const editors = result.editors as UltraciteEditor[];
 		const agents = result.agents as UltraciteAgent[];
 
-		const ultraciteArgs = ["init", "--pm", packageManager, "--frameworks", "react,next"];
+		const frameworks = getFrameworksFromFrontend(frontend);
+
+		const ultraciteArgs = ["init", "--pm", packageManager];
+
+		if (frameworks.length > 0) {
+			ultraciteArgs.push("--frameworks", ...frameworks);
+		}
 
 		if (editors.length > 0) {
 			ultraciteArgs.push("--editors", ...editors);
