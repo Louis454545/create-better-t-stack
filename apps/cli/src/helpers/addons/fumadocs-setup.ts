@@ -1,41 +1,11 @@
 import path from "node:path";
-import { isCancel, log, select, spinner } from "@clack/prompts";
+import { log } from "@clack/prompts";
 import consola from "consola";
 import { execa } from "execa";
 import fs from "fs-extra";
 import pc from "picocolors";
 import type { ProjectConfig } from "../../types";
-import { exitCancelled } from "../../utils/errors";
 import { getPackageExecutionCommand } from "../../utils/package-runner";
-
-type FumadocsTemplate =
-	| "next-mdx"
-	| "next-content-collections"
-	| "react-router-mdx-remote"
-	| "tanstack-start-mdx-remote";
-
-const TEMPLATES = {
-	"next-mdx": {
-		label: "Next.js: Fumadocs MDX",
-		hint: "Recommended template with MDX support",
-		value: "+next+fuma-docs-mdx",
-	},
-	"next-content-collections": {
-		label: "Next.js: Content Collections",
-		hint: "Template using Next.js content collections",
-		value: "+next+content-collections",
-	},
-	"react-router-mdx-remote": {
-		label: "React Router: MDX Remote",
-		hint: "Template for React Router with MDX remote",
-		value: "react-router",
-	},
-	"tanstack-start-mdx-remote": {
-		label: "Tanstack Start: MDX Remote",
-		hint: "Template for Tanstack Start with MDX remote",
-		value: "tanstack-start",
-	},
-} as const;
 
 export async function setupFumadocs(config: ProjectConfig) {
 	const { packageManager, projectDir } = config;
@@ -43,29 +13,12 @@ export async function setupFumadocs(config: ProjectConfig) {
 	try {
 		log.info("Setting up Fumadocs...");
 
-		const template = await select<FumadocsTemplate>({
-			message: "Choose a template",
-			options: Object.entries(TEMPLATES).map(([key, template]) => ({
-				value: key as FumadocsTemplate,
-				label: template.label,
-				hint: template.hint,
-			})),
-			initialValue: "next-mdx",
-		});
-
-		if (isCancel(template)) return exitCancelled("Operation cancelled");
-
-		const templateArg = TEMPLATES[template].value;
-
-		const commandWithArgs = `create-fumadocs-app@latest fumadocs --template ${templateArg} --src --no-install --pm ${packageManager} --no-eslint --no-git`;
+		const commandWithArgs = `create-fumadocs-app@latest fumadocs --src --no-install --pm ${packageManager} --no-eslint --no-biome --no-git`;
 
 		const fumadocsInitCommand = getPackageExecutionCommand(
 			packageManager,
 			commandWithArgs,
 		);
-
-		const s = spinner();
-		s.start("Setting up Fumadocs...");
 
 		const appsDir = path.join(projectDir, "apps");
 		await fs.ensureDir(appsDir);
@@ -74,9 +27,8 @@ export async function setupFumadocs(config: ProjectConfig) {
 			cwd: appsDir,
 			env: { CI: "true" },
 			shell: true,
+			stdio: "inherit",
 		});
-
-		s.stop("Fumadocs setup complete!");
 
 		const fumadocsDir = path.join(projectDir, "apps", "fumadocs");
 		const packageJsonPath = path.join(fumadocsDir, "package.json");
