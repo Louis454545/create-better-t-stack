@@ -83,7 +83,6 @@ export async function setupFumadocs(config: ProjectConfig) {
 			shell: true,
 		});
 
-		
 		const fumadocsDir = path.join(projectDir, "apps", "fumadocs");
 		const packageJsonPath = path.join(fumadocsDir, "package.json");
 
@@ -94,10 +93,10 @@ export async function setupFumadocs(config: ProjectConfig) {
 			if (packageJson.scripts?.dev) {
 				packageJson.scripts.dev = `${packageJson.scripts.dev} --port=4000`;
 			}
-			
+
 			await fs.writeJson(packageJsonPath, packageJson, { spaces: 2 });
 		}
-		
+
 		s.stop("Fumadocs setup complete!");
 	} catch (error) {
 		log.error(pc.red("Failed to set up Fumadocs"));
