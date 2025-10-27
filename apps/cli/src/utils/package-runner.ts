@@ -17,6 +17,8 @@ export function getPackageExecutionCommand(
 			return `pnpm dlx ${commandWithArgs}`;
 		case "bun":
 			return `bunx ${commandWithArgs}`;
+		case "yarn":
+			return `yarn dlx ${commandWithArgs}`;
 		default:
 			return `npx ${commandWithArgs}`;
 	}

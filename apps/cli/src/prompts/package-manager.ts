@@ -22,6 +22,11 @@ export async function getPackageManagerChoice(packageManager?: PackageManager) {
 				label: "bun",
 				hint: "All-in-one JavaScript runtime & toolkit",
 			},
+			{
+				value: "yarn",
+				label: "yarn",
+				hint: "Fast, reliable, and secure dependency management",
+			},
 		],
 		initialValue: detectedPackageManager,
 	});
