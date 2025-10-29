@@ -11,12 +11,10 @@ import {
 import Image from "next/image";
 import { useState } from "react";
 import {
-	filterVisibleSponsors,
 	formatSponsorUrl,
 	getSponsorUrl,
-	isSpecialSponsor,
+	isLifetimeSpecialSponsor,
 	shouldShowLifetimeTotal,
-	sortSpecialSponsors,
 } from "@/lib/sponsor-utils";
 import type { SponsorsData } from "@/lib/types";
 
@@ -27,13 +25,11 @@ export default function SponsorsSection({
 }) {
 	const [showPastSponsors, setShowPastSponsors] = useState(false);
 
-	const allCurrentSponsors = [
-		...sponsorsData.specialSponsors,
-		...sponsorsData.sponsors,
-	];
-	const visibleSponsors = filterVisibleSponsors(allCurrentSponsors);
+	const specialSponsors = sponsorsData.specialSponsors;
+	const regularSponsors = sponsorsData.sponsors;
 	const pastSponsors = sponsorsData.pastSponsors;
-	const specialSponsors = sortSpecialSponsors(sponsorsData.specialSponsors);
+
+	const totalCurrentSponsors = specialSponsors.length + regularSponsors.length;
 
 	return (
 		<div className="">
@@ -47,11 +43,11 @@ export default function SponsorsSection({
 				<div className="hidden h-px flex-1 bg-border sm:block" />
 				<div className="flex items-center gap-2">
 					<span className="text-muted-foreground text-xs">
-						[{visibleSponsors.length} RECORDS]
+						[{totalCurrentSponsors} RECORDS]
 					</span>
 				</div>
 			</div>
-			{visibleSponsors.length === 0 ? (
+			{totalCurrentSponsors === 0 ? (
 				<div className="space-y-4">
 					<div className="rounded border border-border p-8">
 						<div className="text-center">
@@ -174,10 +170,10 @@ export default function SponsorsSection({
 						</div>
 					)}
 
-					{sponsorsData.sponsors.length > 0 && (
+					{regularSponsors.length > 0 && (
 						<div className="space-y-4">
 							<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-								{sponsorsData.sponsors.map((entry, index) => {
+								{regularSponsors.map((entry, index) => {
 									const sponsorUrl = getSponsorUrl(entry);
 									return (
 										<div
@@ -290,7 +286,7 @@ export default function SponsorsSection({
 							{showPastSponsors && (
 								<div className="slide-in-from-top-2 grid animate-in grid-cols-1 gap-4 duration-300 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 									{pastSponsors.map((entry, index) => {
-										const wasSpecial = isSpecialSponsor(entry);
+										const wasSpecial = isLifetimeSpecialSponsor(entry);
 										const sponsorUrl = getSponsorUrl(entry);
 
 										return (

@@ -25,11 +25,13 @@ export async function fetchSponsors() {
 				special_sponsors: 0,
 				current_sponsors: 0,
 				past_sponsors: 0,
+				backers: 0,
 				top_sponsor: { name: "", amount: 0 },
 			},
 			specialSponsors: [],
 			sponsors: [],
 			pastSponsors: [],
+			backers: [],
 		};
 	}
 }

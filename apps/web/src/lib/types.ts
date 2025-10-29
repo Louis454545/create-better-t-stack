@@ -47,6 +47,7 @@ export interface SponsorsData {
 		special_sponsors: number;
 		current_sponsors: number;
 		past_sponsors: number;
+		backers: number;
 		top_sponsor: {
 			name: string;
 			amount: number;
@@ -55,4 +56,5 @@ export interface SponsorsData {
 	specialSponsors: Sponsor[];
 	sponsors: Sponsor[];
 	pastSponsors: Sponsor[];
+	backers: Sponsor[];
 }
