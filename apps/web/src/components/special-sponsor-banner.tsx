@@ -8,13 +8,13 @@ import {
 import {
 	formatSponsorUrl,
 	getSponsorUrl,
-	sortSpecialSponsors,
+	shouldShowLifetimeTotal,
 } from "@/lib/sponsor-utils";
 import { fetchSponsors } from "@/lib/sponsors";
 
 export async function SpecialSponsorBanner() {
 	const data = await fetchSponsors();
-	const specialSponsors = sortSpecialSponsors(data.specialSponsors);
+	const specialSponsors = data.specialSponsors;
 
 	if (!specialSponsors.length) {
 		return null;
@@ -30,7 +30,7 @@ export async function SpecialSponsorBanner() {
 						<HoverCard key={entry.githubId}>
 							<HoverCardTrigger asChild>
 								<a
-									href={entry.websiteUrl || sponsorUrl}
+									href={sponsorUrl}
 									target="_blank"
 									rel="noopener noreferrer"
 									aria-label={entry.name}
@@ -74,11 +74,22 @@ export async function SpecialSponsorBanner() {
 												<h3 className="truncate font-semibold text-sm">
 													{entry.name}
 												</h3>
-												{entry.tierName ? (
+												{shouldShowLifetimeTotal(entry) ? (
+													<>
+														{entry.tierName && (
+															<p className="text-primary text-xs">
+																{entry.tierName}
+															</p>
+														)}
+														<p className="text-muted-foreground text-xs">
+															Total: {entry.formattedAmount}
+														</p>
+													</>
+												) : (
 													<p className="text-primary text-xs">
 														{entry.tierName}
 													</p>
-												) : null}
+												)}
 											</div>
 											<div className="flex flex-col gap-1">
 												<a
