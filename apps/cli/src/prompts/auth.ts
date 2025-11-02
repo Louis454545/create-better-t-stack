@@ -5,7 +5,6 @@ import { exitCancelled } from "../utils/errors";
 
 export async function getAuthChoice(
 	auth: Auth | undefined,
-	hasDatabase: boolean,
 	backend?: Backend,
 	frontend?: string[],
 ) {
@@ -60,8 +59,6 @@ export async function getAuthChoice(
 		if (isCancel(response)) return exitCancelled("Operation cancelled");
 		return response as Auth;
 	}
-
-	if (!hasDatabase) return "none";
 
 	const response = await select({
 		message: "Select authentication provider",

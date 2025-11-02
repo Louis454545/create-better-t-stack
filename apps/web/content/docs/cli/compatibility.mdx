@@ -166,8 +166,8 @@ create-better-t-stack --frontend next native-nativewind
 ### Better-Auth Requirements
 Better-Auth authentication requires:
 - A backend framework (cannot be `none`)
-- A database (cannot be `none`)
-- An ORM (cannot be `none`)
+- With database: Requires an ORM
+- Without database: Works with Convex backend or custom configuration
 
 ### Clerk Requirements
 Clerk authentication requires:
@@ -175,8 +175,12 @@ Clerk authentication requires:
 - Compatible frontends (React frameworks, Next.js, TanStack Start, native frameworks)
 - Not compatible with Nuxt, Svelte, or Solid
 
+### Payments Requirements
+Polar payments require:
+- Better-Auth authentication
+
 ```bash
-# ❌ Invalid - Better-Auth without database
+# ✅ Valid - Better-Auth without database
 create-better-t-stack --auth better-auth --database none
 
 # ✅ Valid - Better-Auth with full stack
@@ -219,12 +223,12 @@ create-better-t-stack --runtime workers --backend hono
 create-better-t-stack --frontend tanstack-router
 ```
 
-### "Authentication requires a database"
+### "Polar payments requires Better Auth"
 ```bash
-# Fix by adding database for Better-Auth
-create-better-t-stack --auth better-auth --database postgres --orm drizzle
+# Fix by using Better-Auth
+create-better-t-stack --payments polar --auth better-auth
 
-# Or use Clerk with Convex (no database required)
+# Or use Clerk with Convex (no payments support)
 create-better-t-stack --auth clerk --backend convex
 ```
 

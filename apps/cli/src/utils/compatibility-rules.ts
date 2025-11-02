@@ -147,16 +147,6 @@ export function validateWorkersCompatibility(
 			"MongoDB database is not compatible with Cloudflare Workers runtime. MongoDB requires Prisma or Mongoose ORM, but Workers runtime only supports Drizzle or Prisma ORM. Please use a different database or runtime.",
 		);
 	}
-
-	if (
-		providedFlags.has("dbSetup") &&
-		options.dbSetup === "docker" &&
-		config.runtime === "workers"
-	) {
-		exitWithError(
-			"Docker setup (--db-setup docker) is not compatible with Cloudflare Workers runtime. Workers runtime uses serverless databases (D1) and doesn't support local Docker containers. Please use '--db-setup d1' for SQLite or choose a different runtime.",
-		);
-	}
 }
 
 export function validateApiFrontendCompatibility(

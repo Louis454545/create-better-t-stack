@@ -84,12 +84,7 @@ export async function gatherConfig(
 					results.backend,
 				) as Promise<API>,
 			auth: ({ results }) =>
-				getAuthChoice(
-					flags.auth,
-					results.database !== "none",
-					results.backend,
-					results.frontend,
-				),
+				getAuthChoice(flags.auth, results.backend, results.frontend),
 			payments: ({ results }) =>
 				getPaymentsChoice(
 					flags.payments,

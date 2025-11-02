@@ -64,30 +64,6 @@ export function validateDatabaseOrmAuth(
 			"ORM selection requires a database. Please choose a database or set '--orm none'.",
 		);
 	}
-
-	if (
-		has("auth") &&
-		has("database") &&
-		cfg.auth !== "none" &&
-		db === "none" &&
-		cfg.backend !== "convex"
-	) {
-		exitWithError(
-			"Authentication requires a database. Please choose a database or set '--auth none'.",
-		);
-	}
-
-	if (cfg.auth !== "none" && db === "none" && cfg.backend !== "convex") {
-		exitWithError(
-			"Authentication requires a database. Please choose a database or set '--auth none'.",
-		);
-	}
-
-	if (orm && orm !== "none" && db === "none") {
-		exitWithError(
-			"ORM selection requires a database. Please choose a database or set '--orm none'.",
-		);
-	}
 }
 
 export function validateDatabaseSetup(

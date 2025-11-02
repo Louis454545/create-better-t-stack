@@ -357,23 +357,6 @@ export const analyzeStackCompatibility = (
 						"ORM set to 'None' (ORM requires a database but 'None' was selected)",
 				});
 			}
-			if (nextStack.auth !== "none" && nextStack.backend !== "convex") {
-				notes.database.notes.push(
-					"Database 'None' selected: Auth will be disabled.",
-				);
-				notes.auth.notes.push(
-					"Authentication requires a database. It will be set to 'None'.",
-				);
-				notes.database.hasIssue = true;
-				notes.auth.hasIssue = true;
-				nextStack.auth = "none";
-				changed = true;
-				changes.push({
-					category: "database",
-					message:
-						"Authentication set to 'None' (auth requires a database but 'None' was selected)",
-				});
-			}
 			if (nextStack.dbSetup !== "none") {
 				notes.database.notes.push(
 					"Database 'None' selected: DB Setup will be set to 'Basic'.",
@@ -1051,42 +1034,6 @@ export const analyzeStackCompatibility = (
 					(addon) => !incompatibleAddons.includes(addon),
 				);
 				if (nextStack.addons.length !== originalAddonsLength) changed = true;
-			}
-
-			if (
-				nextStack.addons.includes("husky") &&
-				!nextStack.addons.includes("biome") &&
-				!nextStack.addons.includes("oxlint")
-			) {
-				notes.addons.notes.push(
-					"Husky addon is selected without a linter. Consider adding Biome or Oxlint for lint-staged integration.",
-				);
-			}
-
-			if (nextStack.addons.includes("ultracite")) {
-				if (nextStack.addons.includes("biome")) {
-					notes.addons.notes.push(
-						"Ultracite includes Biome setup. Biome addon will be removed.",
-					);
-					nextStack.addons = nextStack.addons.filter(
-						(addon) => addon !== "biome",
-					);
-					changed = true;
-					changes.push({
-						category: "addons",
-						message:
-							"Biome addon removed (Ultracite already includes Biome configuration)",
-					});
-				}
-			}
-
-			if (
-				nextStack.addons.includes("oxlint") &&
-				nextStack.addons.includes("biome")
-			) {
-				notes.addons.notes.push(
-					"Both Oxlint and Biome are selected. Consider using only one linter.",
-				);
 			}
 
 			const incompatibleExamples: string[] = [];
@@ -1806,12 +1753,6 @@ export const getDisabledReason = (
 		const hasTauriCompat = hasTauriCompatibleFrontend(finalStack.webFrontend);
 		if (!hasTauriCompat) {
 			return "Tauri addon requires TanStack Router, React Router, Nuxt, Svelte, Solid, or Next.js frontend.";
-		}
-	}
-
-	if (category === "addons" && optionId === "ultracite") {
-		if (finalStack.addons.includes("biome")) {
-			return "Ultracite already includes Biome configuration. Remove Biome addon first.";
 		}
 	}
 
