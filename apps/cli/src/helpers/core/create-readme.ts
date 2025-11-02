@@ -47,8 +47,7 @@ function generateReadmeContent(options: ProjectConfig) {
 		frontend.includes("native-unistyles");
 	const hasSvelte = frontend.includes("svelte");
 
-	const packageManagerRunCmd =
-		packageManager === "npm" ? "npm run" : packageManager;
+	const packageManagerRunCmd = `${packageManager} run`;
 
 	let webPort = "3001";
 	if (hasReactRouter || hasSvelte) {
