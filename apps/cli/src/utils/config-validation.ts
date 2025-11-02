@@ -473,6 +473,13 @@ export function validateFullConfig(
 		config.database,
 		config.frontend ?? [],
 	);
+
+	validatePaymentsCompatibility(
+		config.payments,
+		config.auth,
+		config.backend,
+		config.frontend ?? [],
+	);
 }
 
 export function validateConfigForProgrammaticUse(

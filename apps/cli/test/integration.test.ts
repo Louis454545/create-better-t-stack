@@ -419,6 +419,28 @@ describe("Integration Tests - Real World Scenarios", () => {
 			);
 		});
 
+		it("should fail with payments incompatibility", async () => {
+			const result = await runTRPCTest({
+				projectName: "polar-no-auth-fail",
+				backend: "hono",
+				runtime: "bun",
+				database: "none",
+				orm: "none",
+				auth: "none",
+				payments: "polar",
+				api: "trpc",
+				frontend: ["tanstack-router"],
+				addons: ["turborepo"],
+				examples: ["none"],
+				dbSetup: "none",
+				webDeploy: "none",
+				serverDeploy: "none",
+				expectError: true,
+			});
+
+			expectError(result, "Polar payments requires Better Auth");
+		});
+
 		it("should fail with deployment constraint violation", async () => {
 			const result = await runTRPCTest({
 				projectName: "web-deploy-no-frontend-fail",
