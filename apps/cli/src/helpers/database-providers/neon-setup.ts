@@ -125,7 +125,7 @@ async function setupWithNeonDb(
 ) {
 	try {
 		const s = spinner();
-		s.start("Creating Neon database using neondb...");
+		s.start("Creating Neon database using get-db...");
 
 		const targetApp = backend === "self" ? "apps/web" : "apps/server";
 		const targetDir = path.join(projectDir, targetApp);
@@ -145,7 +145,7 @@ async function setupWithNeonDb(
 
 		return true;
 	} catch (error) {
-		consola.error(pc.red("Failed to create database with neondb"));
+		consola.error(pc.red("Failed to create database with get-db"));
 		throw error;
 	}
 }
@@ -208,7 +208,7 @@ export async function setupNeonPostgres(
 			message: "Choose your Neon setup method:",
 			options: [
 				{
-					label: "Quick setup with neondb",
+					label: "Quick setup with get-db",
 					value: "neondb",
 					hint: "fastest, no auth required",
 				},
