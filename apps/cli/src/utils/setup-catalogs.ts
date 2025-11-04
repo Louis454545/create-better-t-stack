@@ -26,6 +26,8 @@ export async function setupCatalogs(
 		"apps/server",
 		"apps/web",
 		// "apps/native", // todo
+		"apps/fumadocs",
+		"apps/docs",
 		"packages/api",
 		"packages/db",
 		"packages/auth",

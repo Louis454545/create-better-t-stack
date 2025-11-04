@@ -95,10 +95,10 @@ export async function createProject(
 		await setupEnvironmentVariables(options);
 		await updatePackageConfigurations(projectDir, options);
 
-		await setupCatalogs(projectDir, options);
-
 		await setupWebDeploy(options);
 		await setupServerDeploy(options);
+
+		await setupCatalogs(projectDir, options);
 
 		await createReadme(projectDir, options);
 

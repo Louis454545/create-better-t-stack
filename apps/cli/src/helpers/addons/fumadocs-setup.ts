@@ -63,8 +63,7 @@ export async function setupFumadocs(config: ProjectConfig) {
 
 		const templateArg = TEMPLATES[template].value;
 
-		// love you to use @latest here but the cli updates too many times and breaks stuff
-		const commandWithArgs = `create-fumadocs-app@16.0.4 fumadocs --template ${templateArg} --src --pm ${packageManager} --no-git`;
+		const commandWithArgs = `create-fumadocs-app@latest fumadocs --template ${templateArg} --src --pm ${packageManager} --no-git`;
 
 		const fumadocsInitCommand = getPackageExecutionCommand(
 			packageManager,
