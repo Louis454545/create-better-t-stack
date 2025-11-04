@@ -11,11 +11,11 @@
 	"license": "ISC",
 	"description": "",
 	"devDependencies": {
-		"typescript": "^5.9.2"
+		"typescript": "^5.9.3"
 	},
 	"dependencies": {
 		"@erquhart/convex-oss-stats": "^0.8.1",
-		"convex": "^1.27.3",
+		"convex": "^1.28.2",
 		"convex-helpers": "^0.1.104"
 	}
 }
