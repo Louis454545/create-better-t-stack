@@ -9,6 +9,9 @@ export async function getAuthChoice(
 	frontend?: string[],
 ) {
 	if (auth !== undefined) return auth;
+	if (backend === "none") {
+		return "none" as Auth;
+	}
 	if (backend === "convex") {
 		const supportedBetterAuthFrontends = frontend?.some((f) =>
 			[

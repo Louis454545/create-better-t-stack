@@ -272,6 +272,12 @@ export function validateBackendNoneConstraints(
 		);
 	}
 
+	if (has("payments") && config.payments !== "none") {
+		exitWithError(
+			"Backend 'none' requires '--payments none'. Please remove the --payments flag or set it to 'none'.",
+		);
+	}
+
 	if (has("dbSetup") && config.dbSetup !== "none") {
 		exitWithError(
 			"Backend 'none' requires '--db-setup none'. Please remove the --db-setup flag or set it to 'none'.",

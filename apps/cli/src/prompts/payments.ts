@@ -12,6 +12,10 @@ export async function getPaymentsChoice(
 ) {
 	if (payments !== undefined) return payments;
 
+	if (backend === "none") {
+		return "none" as Payments;
+	}
+
 	const isPolarCompatible =
 		auth === "better-auth" &&
 		backend !== "convex" &&
