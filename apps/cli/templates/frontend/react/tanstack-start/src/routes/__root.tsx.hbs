@@ -7,7 +7,6 @@ import {
   Outlet,
   Scripts,
   createRootRouteWithContext,
-  useRouterState,
 {{#if (and (eq backend "convex") (or (eq auth "clerk") (eq auth "better-auth")))}}
   useRouteContext,
 {{/if}}
@@ -24,7 +23,6 @@ import type { ConvexReactClient } from "convex/react";
 import type { QueryClient } from "@tanstack/react-query";
 {{/if}}
 {{/if}}
-import Loader from "@/components/loader";
 
 {{#if (and (eq backend "convex") (eq auth "clerk"))}}
 import { ClerkProvider, useAuth } from "@clerk/tanstack-react-start";
@@ -125,7 +123,6 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 });
 
 function RootDocument() {
-  const isFetching = useRouterState({ select: (s) => s.isLoading });
   {{#if (and (eq backend "convex") (eq auth "clerk"))}}
   const context = useRouteContext({ from: Route.id });
   return (
@@ -138,7 +135,7 @@ function RootDocument() {
           <body>
             <div className="grid h-svh grid-rows-[auto_1fr]">
               <Header />
-              {isFetching ? <Loader /> : <Outlet />}
+              <Outlet />
             </div>
             <Toaster richColors />
             <TanStackRouterDevtools position="bottom-left" />
@@ -159,7 +156,7 @@ function RootDocument() {
         <body>
           <div className="grid h-svh grid-rows-[auto_1fr]">
             <Header />
-            {isFetching ? <Loader /> : <Outlet />}
+            <Outlet />
           </div>
           <Toaster richColors />
           <TanStackRouterDevtools position="bottom-left" />
@@ -177,7 +174,7 @@ function RootDocument() {
       <body>
         <div className="grid h-svh grid-rows-[auto_1fr]">
           <Header />
-          {isFetching ? <Loader /> : <Outlet />}
+          <Outlet />
         </div>
         <Toaster richColors />
         <TanStackRouterDevtools position="bottom-left" />
