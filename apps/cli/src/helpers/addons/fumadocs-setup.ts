@@ -1,5 +1,5 @@
 import path from "node:path";
-import { isCancel, log, select, spinner } from "@clack/prompts";
+import { isCancel, log, select } from "@clack/prompts";
 import consola from "consola";
 import { execa } from "execa";
 import fs from "fs-extra";
@@ -73,13 +73,13 @@ export async function setupFumadocs(config: ProjectConfig) {
 		const appsDir = path.join(projectDir, "apps");
 		await fs.ensureDir(appsDir);
 
-		const s = spinner();
-		s.start("Setting up Fumadocs...");
+		log.info("Running Fumadocs create command...");
 
 		await execa(fumadocsInitCommand, {
 			cwd: appsDir,
 			env: { CI: "true" },
 			shell: true,
+			stdio: "inherit",
 		});
 
 		const fumadocsDir = path.join(projectDir, "apps", "fumadocs");
@@ -96,7 +96,7 @@ export async function setupFumadocs(config: ProjectConfig) {
 			await fs.writeJson(packageJsonPath, packageJson, { spaces: 2 });
 		}
 
-		s.stop("Fumadocs setup complete!");
+		log.success("Fumadocs setup complete!");
 	} catch (error) {
 		log.error(pc.red("Failed to set up Fumadocs"));
 		if (error instanceof Error) {
