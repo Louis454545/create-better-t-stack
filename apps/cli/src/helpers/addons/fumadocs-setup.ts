@@ -73,7 +73,7 @@ export async function setupFumadocs(config: ProjectConfig) {
 		const appsDir = path.join(projectDir, "apps");
 		await fs.ensureDir(appsDir);
 
-		const s = spinner()
+		const s = spinner();
 		s.start("Running Fumadocs create command...");
 
 		await execa(fumadocsInitCommand, {

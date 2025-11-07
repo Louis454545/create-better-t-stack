@@ -214,7 +214,7 @@ export async function setupUltracite(config: ProjectConfig, hasHusky: boolean) {
 			commandWithArgs,
 		);
 
-		const s = spinner()
+		const s = spinner();
 		s.start("Running Ultracite init command...");
 
 		await execa(ultraciteInitCommand, {
@@ -231,8 +231,6 @@ export async function setupUltracite(config: ProjectConfig, hasHusky: boolean) {
 		}
 
 		s.stop("Ultracite setup successfully!");
-
-
 	} catch (error) {
 		log.error(pc.red("Failed to set up Ultracite"));
 		if (error instanceof Error) {
