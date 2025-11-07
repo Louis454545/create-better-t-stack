@@ -3,6 +3,7 @@ import {
 	group,
 	log,
 	multiselect,
+	spinner,
 } from "@clack/prompts";
 import { execa } from "execa";
 import pc from "picocolors";
@@ -213,16 +214,14 @@ export async function setupUltracite(config: ProjectConfig, hasHusky: boolean) {
 			commandWithArgs,
 		);
 
-		log.info("Running Ultracite init command...");
+		const s = spinner()
+		s.start("Running Ultracite init command...");
 
 		await execa(ultraciteInitCommand, {
 			cwd: projectDir,
 			env: { CI: "true" },
 			shell: true,
-			stdio: "inherit",
 		});
-
-		log.success("Ultracite setup complete!");
 
 		if (hasHusky) {
 			await addPackageDependency({
@@ -231,7 +230,9 @@ export async function setupUltracite(config: ProjectConfig, hasHusky: boolean) {
 			});
 		}
 
-		log.success("Ultracite setup successfully!");
+		s.stop("Ultracite setup successfully!");
+
+
 	} catch (error) {
 		log.error(pc.red("Failed to set up Ultracite"));
 		if (error instanceof Error) {
