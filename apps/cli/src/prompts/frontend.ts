@@ -98,7 +98,7 @@ export async function getFrontendChoice(
 				},
 				{
 					value: "native-uniwind" as const,
-					label: "UniWind",
+					label: "Uniwind",
 					hint: "Use Tailwind CSS for React Native",
 				},
 				{
