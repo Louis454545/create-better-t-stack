@@ -53,8 +53,9 @@ export const dependencyVersionMap = {
 	"@planetscale/database": "^1.19.0",
 
 	"@libsql/client": "^0.14.0",
+	libsql: "^0.5.22",
 
-	"@neondatabase/serverless": "^1.0.1",
+	"@neondatabase/serverless": "^1.0.2",
 	pg: "^8.14.1",
 	"@types/pg": "^8.11.11",
 	"@types/ws": "^8.18.1",
@@ -62,12 +63,15 @@ export const dependencyVersionMap = {
 
 	mysql2: "^3.14.0",
 
-	"@prisma/client": "^6.15.0",
-	prisma: "^6.15.0",
-	"@prisma/adapter-d1": "^6.15.0",
-	"@prisma/adapter-libsql": "^6.15.0",
-
-	"@prisma/adapter-planetscale": "^6.15.0",
+	"@prisma/client": "^7.0.0",
+	prisma: "^7.0.0",
+	"@prisma/adapter-d1": "^7.0.0",
+	"@prisma/adapter-neon": "^7.0.0",
+	"@prisma/adapter-mariadb": "^7.0.0",
+	"@prisma/adapter-libsql": "^7.0.0",
+	"@prisma/adapter-better-sqlite3": "^7.0.0",
+	"@prisma/adapter-pg": "^7.0.0",
+	"@prisma/adapter-planetscale": "^7.0.0",
 
 	mongoose: "^8.14.0",
 
@@ -157,7 +161,7 @@ export const dependencyVersionMap = {
 	alchemy: "^0.77.0",
 
 	dotenv: "^17.2.2",
-	tsdown: "^0.15.5",
+	tsdown: "^0.16.5",
 	zod: "^4.1.11",
 	srvx: "0.8.15",
 
