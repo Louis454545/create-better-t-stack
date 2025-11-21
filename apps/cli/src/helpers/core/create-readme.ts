@@ -549,7 +549,7 @@ function generateDatabaseSetup(
 
 	const isBackendSelf = backend === "self";
 	const envPath = isBackendSelf ? "apps/web/.env" : "apps/server/.env";
-	const dbLocalPath = isBackendSelf ? "apps/web" : "apps/server";
+	const dbLocalPath = "packages/db";
 
 	let setup = "## Database Setup\n\n";
 
@@ -677,9 +677,8 @@ function generateScriptsList(
 - \`${packageManagerRunCmd} db:studio\`: Open database studio UI`;
 
 		if (database === "sqlite" && orm === "drizzle") {
-			const dbLocalPath = isBackendSelf ? "apps/web" : "apps/server";
 			scripts += `
-- \`cd ${dbLocalPath} && ${packageManagerRunCmd} db:local\`: Start the local SQLite database`;
+- \`cd packages/db && ${packageManagerRunCmd} db:local\`: Start the local SQLite database`;
 		}
 	}
 
