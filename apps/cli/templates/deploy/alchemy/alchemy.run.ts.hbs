@@ -57,7 +57,7 @@ export const web = await Nextjs("web", {
     {{#if (eq backend "self")}}
     {{#if (eq dbSetup "d1")}}
     DB: db,
-    {{else if (and (ne database "none") (ne dbSetup "none"))}}
+    {{else if (ne database "none")}}
     DATABASE_URL: alchemy.secret(process.env.DATABASE_URL),
     {{/if}}
     CORS_ORIGIN: process.env.CORS_ORIGIN || "",
@@ -131,7 +131,7 @@ export const web = await TanStackStart("web", {
     {{#if (eq backend "self")}}
     {{#if (eq dbSetup "d1")}}
     DB: db,
-    {{else if (and (ne database "none") (ne dbSetup "none"))}}
+    {{else if (ne database "none")}}
     DATABASE_URL: alchemy.secret(process.env.DATABASE_URL),
     {{/if}}
     CORS_ORIGIN: process.env.CORS_ORIGIN || "",
@@ -220,7 +220,7 @@ export const server = await Worker("server", {
   bindings: {
     {{#if (eq dbSetup "d1")}}
     DB: db,
-    {{else if (and (ne database "none") (ne dbSetup "none"))}}
+    {{else if (ne database "none")}}
     DATABASE_URL: alchemy.secret(process.env.DATABASE_URL),
     {{/if}}
     CORS_ORIGIN: process.env.CORS_ORIGIN || "",
