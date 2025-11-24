@@ -689,6 +689,32 @@ export const PRESET_TEMPLATES = [
 			yolo: "false",
 		},
 	},
+	{
+		id: "uniwind",
+		name: "Uniwind Native",
+		description: "Expo + Uniwind native app with no backend services",
+		stack: {
+			projectName: "my-better-t-app",
+			webFrontend: ["none"],
+			nativeFrontend: ["native-uniwind"],
+			runtime: "none",
+			backend: "none",
+			database: "none",
+			orm: "none",
+			dbSetup: "none",
+			auth: "none",
+			payments: "none",
+			packageManager: "bun",
+			addons: ["none"],
+			examples: ["none"],
+			git: "true",
+			install: "true",
+			api: "none",
+			webDeploy: "none",
+			serverDeploy: "none",
+			yolo: "false",
+		},
+	},
 ];
 
 export type StackState = {

@@ -131,7 +131,7 @@ export const DirectoryConflictSchema = z
 export type DirectoryConflict = z.infer<typeof DirectoryConflictSchema>;
 
 export const TemplateSchema = z
-	.enum(["mern", "pern", "t3", "none"])
+	.enum(["mern", "pern", "t3", "uniwind", "none"])
 	.describe("Predefined project template");
 export type Template = z.infer<typeof TemplateSchema>;
 

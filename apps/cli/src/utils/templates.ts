@@ -46,6 +46,21 @@ export const TEMPLATE_PRESETS: Record<Template, CreateInput | null> = {
 		webDeploy: "none",
 		serverDeploy: "none",
 	},
+	uniwind: {
+		database: "none",
+		orm: "none",
+		backend: "none",
+		runtime: "none",
+		frontend: ["native-uniwind"],
+		api: "none",
+		auth: "none",
+		payments: "none",
+		addons: ["none"],
+		examples: ["none"],
+		dbSetup: "none",
+		webDeploy: "none",
+		serverDeploy: "none",
+	},
 	none: null,
 };
 
@@ -67,6 +82,7 @@ export function getTemplateDescription(template: Template) {
 		mern: "MongoDB + Express + React + Node.js - Classic MERN stack",
 		pern: "PostgreSQL + Express + React + Node.js - Popular PERN stack",
 		t3: "T3 Stack - Next.js + tRPC + Prisma + PostgreSQL + Better Auth",
+		uniwind: "Expo + Uniwind native app with no backend services",
 		none: "No template - Full customization",
 	};
 
