@@ -35,6 +35,7 @@ export async function setupDatabase(
 	const s = spinner();
 	const dbPackageDir = path.join(projectDir, "packages/db");
 	const webDir = path.join(projectDir, "apps/web");
+	const webDirExists = await fs.pathExists(webDir);
 
 	if (!(await fs.pathExists(dbPackageDir))) {
 		return;
@@ -113,10 +114,12 @@ export async function setupDatabase(
 					devDependencies: ["drizzle-kit"],
 					projectDir: dbPackageDir,
 				});
-				await addPackageDependency({
-					dependencies: ["@libsql/client", "libsql"],
-					projectDir: webDir,
-				});
+				if (webDirExists) {
+					await addPackageDependency({
+						dependencies: ["@libsql/client", "libsql"],
+						projectDir: webDir,
+					});
+				}
 			} else if (database === "postgres") {
 				if (dbSetup === "neon") {
 					await addPackageDependency({
