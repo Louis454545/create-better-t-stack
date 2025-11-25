@@ -72,6 +72,7 @@ export const dependencyVersionMap = {
 	"@prisma/adapter-better-sqlite3": "^7.0.0",
 	"@prisma/adapter-pg": "^7.0.0",
 	"@prisma/adapter-planetscale": "^7.0.0",
+	"@prisma/adapter-ppg": "^7.0.0",
 
 	mongoose: "^8.14.0",
 

@@ -1,6 +1,5 @@
 import path from "node:path";
 import { defineConfig, env } from 'prisma/config'
-{{#unless (eq dbSetup "prisma-postgres")}}
 import dotenv from 'dotenv'
 
 dotenv.config({
@@ -10,7 +9,6 @@ dotenv.config({
     path: "../../apps/server/.env",
     {{/if}}
 })
-{{/unless}}
 
 export default defineConfig({
   schema: path.join("prisma", "schema"),

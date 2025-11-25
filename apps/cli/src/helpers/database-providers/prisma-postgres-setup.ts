@@ -1,11 +1,10 @@
 import path from "node:path";
-import { isCancel, log, select, spinner, text } from "@clack/prompts";
+import { isCancel, log, select, spinner } from "@clack/prompts";
 import { consola } from "consola";
 import { execa } from "execa";
 import fs from "fs-extra";
 import pc from "picocolors";
 import type { PackageManager, ProjectConfig } from "../../types";
-import { exitCancelled } from "../../utils/errors";
 import { getPackageExecutionCommand } from "../../utils/package-runner";
 import { addEnvVariablesToFile, type EnvVariable } from "../core/env-setup";
 
@@ -83,56 +82,6 @@ async function setupWithCreateDb(
 	}
 }
 
-async function initPrismaDatabase(
-	serverDir: string,
-	packageManager: PackageManager,
-) {
-	try {
-		const prismaDir = path.join(serverDir, "prisma");
-		await fs.ensureDir(prismaDir);
-
-		log.info("Starting Prisma PostgreSQL setup.");
-
-		const prismaInitCommand = getPackageExecutionCommand(
-			packageManager,
-			"prisma init --db",
-		);
-
-		await execa(prismaInitCommand, {
-			cwd: serverDir,
-			stdio: "inherit",
-			shell: true,
-		});
-
-		log.info(
-			pc.yellow(
-				"Please copy the Prisma Postgres URL.\nIt looks like: postgresql://user:password@host:5432/db?sslmode=require",
-			),
-		);
-
-		const databaseUrl = await text({
-			message: "Paste your Prisma Postgres database URL:",
-			validate(value) {
-				if (!value) return "Please enter a database URL";
-				if (!value.startsWith("postgresql://")) {
-					return "URL should start with postgresql://";
-				}
-			},
-		});
-
-		if (isCancel(databaseUrl)) return null;
-
-		return {
-			databaseUrl: databaseUrl as string,
-		};
-	} catch (error) {
-		if (error instanceof Error) {
-			consola.error(error.message);
-		}
-		return null;
-	}
-}
-
 async function writeEnvFile(
 	projectDir: string,
 	backend: ProjectConfig["backend"],
@@ -165,25 +114,6 @@ async function writeEnvFile(
 	}
 }
 
-async function addDotenvImportToPrismaConfig(
-	projectDir: string,
-	backend: ProjectConfig["backend"],
-) {
-	try {
-		const prismaConfigPath = path.join(
-			projectDir,
-			"packages/db/prisma.config.ts",
-		);
-		let content = await fs.readFile(prismaConfigPath, "utf8");
-		const envPath =
-			backend === "self" ? "../../apps/web/.env" : "../../apps/server/.env";
-		content = `import dotenv from "dotenv";\ndotenv.config({ path: "${envPath}" });\n${content}`;
-		await fs.writeFile(prismaConfigPath, content);
-	} catch (_error) {
-		consola.error("Failed to update prisma.config.ts");
-	}
-}
-
 function displayManualSetupInstructions(target: "apps/web" | "apps/server") {
 	log.info(`Manual Prisma PostgreSQL Setup Instructions:
 
@@ -199,7 +129,7 @@ export async function setupPrismaPostgres(
 	config: ProjectConfig,
 	cliInput?: { manualDb?: boolean },
 ) {
-	const { packageManager, projectDir, orm, backend } = config;
+	const { packageManager, projectDir, backend } = config;
 	const manualDb = cliInput?.manualDb ?? false;
 	const dbDir = path.join(projectDir, "packages/db");
 
@@ -214,26 +144,26 @@ export async function setupPrismaPostgres(
 			return;
 		}
 
-		const mode = await select({
+		const setupMode = await select({
 			message: "Prisma Postgres setup: choose mode",
 			options: [
 				{
-					label: "Automatic",
+					label: "Automatic (create-db)",
 					value: "auto",
-					hint: "Automated setup with provider CLI, sets .env",
+					hint: "Provision a database via Prisma's create-db CLI",
 				},
 				{
 					label: "Manual",
 					value: "manual",
-					hint: "Manual setup, add env vars yourself",
+					hint: "Add your own DATABASE_URL later",
 				},
 			],
 			initialValue: "auto",
 		});
 
-		if (isCancel(mode)) return exitCancelled("Operation cancelled");
+		if (isCancel(setupMode)) return;
 
-		if (mode === "manual") {
+		if (setupMode === "manual") {
 			await writeEnvFile(projectDir, backend);
 			displayManualSetupInstructions(
 				backend === "self" ? "apps/web" : "apps/server",
@@ -241,44 +171,10 @@ export async function setupPrismaPostgres(
 			return;
 		}
 
-		const setupOptions = [
-			{
-				label: "Quick setup with create-db",
-				value: "create-db",
-				hint: "Fastest, automated database creation (no auth)",
-			},
-		];
-
-		if (orm === "prisma") {
-			setupOptions.push({
-				label: "Custom setup with Prisma Init",
-				value: "custom",
-				hint: "More control (requires auth)",
-			});
-		}
-
-		const setupMethod = await select({
-			message: "Choose your Prisma Postgres setup method:",
-			options: setupOptions,
-			initialValue: "create-db",
-		});
-
-		if (isCancel(setupMethod)) return exitCancelled("Operation cancelled");
-
-		let prismaConfig: PrismaConfig | null = null;
-
-		if (setupMethod === "create-db") {
-			prismaConfig = await setupWithCreateDb(dbDir, packageManager);
-		} else {
-			prismaConfig = await initPrismaDatabase(dbDir, packageManager);
-		}
+		const prismaConfig = await setupWithCreateDb(dbDir, packageManager);
 
 		if (prismaConfig) {
 			await writeEnvFile(projectDir, backend, prismaConfig);
-
-			if (orm === "prisma") {
-				await addDotenvImportToPrismaConfig(projectDir, backend);
-			}
 
 			log.success(
 				pc.green("Prisma Postgres database configured successfully!"),

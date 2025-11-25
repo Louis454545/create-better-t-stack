@@ -60,7 +60,7 @@ export async function displayPostInstallInstructions(
 		: "";
 	const nativeInstructions =
 		(frontend?.includes("native-bare") ||
-			frontend?.includes("native-uniwind") ||
+		frontend?.includes("native-uniwind") ||
 			frontend?.includes("native-unistyles")) &&
 		backend !== "none"
 			? getNativeInstructions(isConvex, isBackendSelf, frontend || [])
@@ -165,34 +165,34 @@ export async function displayPostInstallInstructions(
 		addons?.includes("fumadocs");
 
 	if (hasAnyService) {
-		output += `${pc.bold("Your project will be available at:")}\n`;
+	output += `${pc.bold("Your project will be available at:")}\n`;
 
-		if (hasWeb) {
-			output += `${pc.cyan("•")} Frontend: http://localhost:${webPort}\n`;
-		} else if (!hasNative && !addons?.includes("starlight")) {
-			output += `${pc.yellow(
-				"NOTE:",
-			)} You are creating a backend-only app\n   (no frontend selected)\n`;
-		}
+	if (hasWeb) {
+		output += `${pc.cyan("•")} Frontend: http://localhost:${webPort}\n`;
+	} else if (!hasNative && !addons?.includes("starlight")) {
+		output += `${pc.yellow(
+			"NOTE:",
+		)} You are creating a backend-only app\n   (no frontend selected)\n`;
+	}
 
 		if (!isConvex && !isBackendSelf && hasStandaloneBackend) {
-			output += `${pc.cyan("•")} Backend API: http://localhost:3000\n`;
+		output += `${pc.cyan("•")} Backend API: http://localhost:3000\n`;
 
-			if (api === "orpc") {
-				output += `${pc.cyan("•")} OpenAPI (Scalar UI): http://localhost:3000/api-reference\n`;
-			}
+		if (api === "orpc") {
+			output += `${pc.cyan("•")} OpenAPI (Scalar UI): http://localhost:3000/api-reference\n`;
 		}
+	}
 
-		if (isBackendSelf && api === "orpc") {
-			output += `${pc.cyan("•")} OpenAPI (Scalar UI): http://localhost:${webPort}/api/rpc/api-reference\n`;
-		}
+	if (isBackendSelf && api === "orpc") {
+		output += `${pc.cyan("•")} OpenAPI (Scalar UI): http://localhost:${webPort}/api/rpc/api-reference\n`;
+	}
 
-		if (addons?.includes("starlight")) {
-			output += `${pc.cyan("•")} Docs: http://localhost:4321\n`;
-		}
+	if (addons?.includes("starlight")) {
+		output += `${pc.cyan("•")} Docs: http://localhost:4321\n`;
+	}
 
-		if (addons?.includes("fumadocs")) {
-			output += `${pc.cyan("•")} Fumadocs: http://localhost:4000\n`;
+	if (addons?.includes("fumadocs")) {
+		output += `${pc.cyan("•")} Fumadocs: http://localhost:4000\n`;
 		}
 	}
 
