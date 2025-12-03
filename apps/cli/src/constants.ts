@@ -40,8 +40,8 @@ export function getDefaultConfig() {
 export const DEFAULT_CONFIG = getDefaultConfig();
 
 export const dependencyVersionMap = {
-	"better-auth": "^1.4.0",
-	"@better-auth/expo": "^1.4.0",
+	"better-auth": "^1.4.5",
+	"@better-auth/expo": "^1.4.5",
 
 	"@clerk/nextjs": "^6.31.5",
 	"@clerk/clerk-react": "^5.45.0",
@@ -63,16 +63,15 @@ export const dependencyVersionMap = {
 
 	mysql2: "^3.14.0",
 
-	"@prisma/client": "^7.0.0",
-	prisma: "^7.0.0",
-	"@prisma/adapter-d1": "^7.0.0",
-	"@prisma/adapter-neon": "^7.0.0",
-	"@prisma/adapter-mariadb": "^7.0.0",
-	"@prisma/adapter-libsql": "^7.0.0",
-	"@prisma/adapter-better-sqlite3": "^7.0.0",
-	"@prisma/adapter-pg": "^7.0.0",
-	"@prisma/adapter-planetscale": "^7.0.0",
-	"@prisma/adapter-ppg": "^7.0.0",
+	"@prisma/client": "^7.0.1",
+	prisma: "^7.0.1",
+	"@prisma/adapter-d1": "^7.0.1",
+	"@prisma/adapter-neon": "^7.0.1",
+	"@prisma/adapter-mariadb": "^7.0.1",
+	"@prisma/adapter-libsql": "^7.0.1",
+	"@prisma/adapter-better-sqlite3": "^7.0.1",
+	"@prisma/adapter-pg": "^7.0.1",
+	"@prisma/adapter-planetscale": "^7.0.1",
 
 	mongoose: "^8.14.0",
 

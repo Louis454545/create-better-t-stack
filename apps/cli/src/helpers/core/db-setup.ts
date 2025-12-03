@@ -79,7 +79,7 @@ export async function setupDatabase(
 						);
 						prismaDevDependencies.push("@types/ws");
 					} else if (dbSetup === "prisma-postgres") {
-						prismaDependencies.push("@prisma/adapter-ppg");
+						prismaDependencies.push("@prisma/adapter-pg");
 					} else {
 						prismaDependencies.push("@prisma/adapter-pg");
 						prismaDependencies.push("pg");
