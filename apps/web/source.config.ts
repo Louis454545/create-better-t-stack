@@ -1,4 +1,4 @@
-import { defineConfig, defineDocs } from "fumadocs-mdx/config";
+import { defineConfig, defineDocs, metaSchema } from "fumadocs-mdx/config";
 
 export const docs = defineDocs({
 	dir: "content/docs",
@@ -6,6 +6,9 @@ export const docs = defineDocs({
 		postprocess: {
 			includeProcessedMarkdown: true,
 		},
+	},
+	meta: {
+		schema: metaSchema,
 	},
 });
 

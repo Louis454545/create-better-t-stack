@@ -1,18 +1,16 @@
 import * as TabsComponents from "fumadocs-ui/components/tabs";
-import defaultMdxComponents from "fumadocs-ui/mdx";
 import {
 	DocsBody,
 	DocsDescription,
 	DocsPage,
 	DocsTitle,
-} from "fumadocs-ui/page";
+} from "fumadocs-ui/layouts/notebook/page";
+import defaultMdxComponents from "fumadocs-ui/mdx";
 import { notFound } from "next/navigation";
 import { LLMCopyButton, ViewOptions } from "@/components/ai/page-actions";
 import { source } from "@/lib/source";
 
-export default async function Page(props: {
-	params: Promise<{ slug?: string[] }>;
-}) {
+export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
 	const params = await props.params;
 	const page = source.getPage(params.slug);
 	if (!page) notFound();
@@ -47,9 +45,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
 	params,
-}: {
-	params: Promise<{ slug?: string[] }>;
-}) {
+}: PageProps<"/docs/[[...slug]]">) {
 	const { slug = [] } = await params;
 	const page = source.getPage(slug);
 	if (!page) notFound();
